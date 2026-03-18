@@ -39,7 +39,7 @@ const Home = () => {
             </div>
             <div className="col-lg-6 text-center">
               <img 
-                src={`/images/gurukul-1.jpg`} 
+                src={`/src/assets/images/gurukul-1.jpg`} 
                 alt="Children of Gurukul" 
                 className="img-fluid hero-image border border-white border-5 shadow-lg"
               />
@@ -169,10 +169,10 @@ const Home = () => {
                   <div 
                     className="ratio ratio-1x1 bg-ngo-light rounded shadow-sm overflow-hidden d-flex align-items-center justify-content-center text-white"
                     style={{ cursor: 'pointer' }}
-                    onClick={() => handleImageClick(`/images/gurukul-${num}.jpg`)}
+                    onClick={() => handleImageClick(`/src/assets/images/gurukul-${num}.jpg`)}
                   >
                     <img 
-                      src={`/images/gurukul-${num}.jpg`} 
+                      src={`/src/assets/images/gurukul-${num}.jpg`} 
                       alt={`Gurukul ${num}`} 
                       className="img-fluid object-fit-cover w-100 h-100 support-card m-0 border-0" 
                     />

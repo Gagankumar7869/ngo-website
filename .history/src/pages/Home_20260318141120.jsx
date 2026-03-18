@@ -39,7 +39,7 @@ const Home = () => {
             </div>
             <div className="col-lg-6 text-center">
               <img 
-                src={`/images/gurukul-1.jpg`} 
+                src={`/src/assets/images/gurukul-1.jpg`} 
                 alt="Children of Gurukul" 
                 className="img-fluid hero-image border border-white border-5 shadow-lg"
               />
