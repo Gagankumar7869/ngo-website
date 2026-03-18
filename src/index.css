@@ -1,0 +1,73 @@
+/* --- CUSTOM NGO COLOR PALETTE --- */
+:root {
+  --ngo-blue: #0A2540;     /* Deep navy for trust/authority */
+  --ngo-yellow: #FFD166;   /* Cheerful yellow for attention/hover */
+  --ngo-teal: #118AB2;     /* Calming teal for healthcare */
+  --ngo-coral: #EF476F;    /* Warm coral for urgency/donations */
+  --ngo-light: #F8F9FA;    /* Soft off-white for backgrounds */
+}
+
+/* Custom Background & Text Classes */
+.bg-ngo-blue { background-color: var(--ngo-blue) !important; }
+.bg-ngo-teal { background-color: var(--ngo-teal) !important; }
+.bg-ngo-light { background-color: var(--ngo-light) !important; }
+
+.text-ngo-blue { color: var(--ngo-blue) !important; }
+.text-ngo-teal { color: var(--ngo-teal) !important; }
+.text-ngo-coral { color: var(--ngo-coral) !important; }
+.text-ngo-yellow { color: var(--ngo-yellow) !important; }
+
+/* Custom Vibrant Buttons */
+.btn-donate {
+  background-color: var(--ngo-coral);
+  color: white !important;
+  border: none;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(239, 71, 111, 0.3);
+}
+
+.btn-donate:hover {
+  background-color: #D13658; /* Slightly darker coral on hover */
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(239, 71, 111, 0.4);
+}
+
+.btn-outline-custom {
+  border: 2px solid var(--ngo-blue);
+  color: var(--ngo-blue);
+  background-color: transparent;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-custom:hover {
+  background-color: var(--ngo-blue);
+  color: white !important;
+}
+
+/* Custom Styling for the Support Cards */
+.support-card {
+  background-color: rgba(255, 255, 255, 0.05); /* Slight transparent white over the dark background */
+  color: white;
+  transition: all 0.3s ease-in-out;
+  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.support-card:hover {
+  background-color: var(--ngo-yellow);
+  color: var(--ngo-blue) !important; 
+  border-color: var(--ngo-yellow) !important;
+  transform: translateY(-5px); 
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+}
+
+.support-card:hover h4, 
+.support-card:hover p {
+  color: var(--ngo-blue) !important;
+}
+
+/* Make the hero image a bit more organic looking */
+.hero-image {
+  border-radius: 50% 10% 50% 10% / 10% 50% 10% 50%;
+  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
