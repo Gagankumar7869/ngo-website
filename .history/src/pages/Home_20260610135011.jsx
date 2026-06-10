@@ -16,7 +16,7 @@ export default function Home() {
   const [activeTab, setActiveTab] = useState('All');
   const [selectedImage, setSelectedImage] = useState(null);
 
-  // --- FRONTEND PDF GENERATOR ---
+  // --- FRONTEND PDF GENERATOR (MATCHING PHYSICAL RECEIPTS) ---
   const handleClaimSubmit = (e) => {
     e.preventDefault();
     
@@ -123,103 +123,11 @@ export default function Home() {
   const handleImageClick = (imagePath) => setSelectedImage(imagePath);
   const closeImage = () => setSelectedImage(null);
 
-  const therapyBoxStyle = {
-    color: '#2B6CB0',
-    border: '1px solid rgba(43, 108, 176, 0.2)',
-    borderRadius: '8px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
-    transition: 'all 0.2s ease-in-out'
-  };
-
   return (
     <div className="home-container">
       
-      {/* INJECTED CSS FOR HOVER CARDS, NAVBAR LINKS & SMOOTH SCROLL */}
-      <style>
-        {`
-          html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 80px; 
-          }
-          
-          /* Navbar Link Hover Animation */
-          .nav-hover-link {
-            position: relative;
-            transition: color 0.3s ease;
-            padding-bottom: 5px;
-          }
-          .nav-hover-link:hover {
-            color: #FF6B6B !important;
-          }
-          .nav-hover-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 50%;
-            background-color: #FF6B6B;
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-          }
-          .nav-hover-link:hover::after {
-            width: 100%;
-          }
-
-          /* Yellow Mission Cards */
-          .mission-card {
-            background-color: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            height: 100%;
-            padding: 1.5rem;
-          }
-          .mission-card p {
-            opacity: 0.9;
-            line-height: 1.6;
-            margin-bottom: 0;
-          }
-          .mission-card:hover {
-            background-color: #F6E05E;
-            border-color: #F6E05E;
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(246, 224, 94, 0.2);
-          }
-          .mission-card:hover h4, 
-          .mission-card:hover p {
-            color: #1A365D !important;
-            opacity: 1;
-          }
-        `}
-      </style>
-
-      {/* 0. NEW TOP NAVIGATION BAR (WITH ANIMATED HOVER LINKS) */}
-      <nav className="navbar navbar-expand-md navbar-light bg-white sticky-top shadow-sm py-3">
-        <div className="container">
-          <a className="navbar-brand fw-bold fs-4" href="#" style={{ color: 'var(--primary-blue)' }}>ANDS Foundation</a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul className="navbar-nav align-items-center gap-4">
-              <li className="nav-item">
-                <a className="nav-link fw-semibold text-dark nav-hover-link" href="#hospital-section">Hospital</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link fw-semibold text-dark nav-hover-link" href="#gurukul-section">Gurukul</a>
-              </li>
-              <li className="nav-item ms-md-2">
-                <a className="btn btn-coral px-4 rounded-pill shadow-sm" href="#donate-section">Donate Now</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
       {/* 1. HERO SECTION */}
-      <div className="hero-gradient text-center" style={{ marginTop: '-80px', paddingTop: '160px' }}>
+      <div className="hero-gradient text-center">
         <div className="container">
           <h1 className="display-4 fw-bold mb-3 text-white">Serving Humanity with Love</h1>
           <p className="lead mb-4 text-white" style={{ opacity: 0.9 }}>
@@ -230,7 +138,7 @@ export default function Home() {
       </div>
 
       {/* 2. ABHA SEVA SADAN SECTION */}
-      <div id="hospital-section" className="container my-5 py-4">
+      <div className="container my-5 py-4">
         <div className="row align-items-center g-5">
           <div className="col-lg-7">
             <h2 className="fw-bold mb-2" style={{ color: '#2B6CB0' }}>Abha Seva Sadan</h2>
@@ -239,20 +147,21 @@ export default function Home() {
               We provide affordable and integrated healthcare to the underprivileged, blending modern science with ancient wellness traditions.
             </p>
             
-            <div className="row row-cols-2 g-3 text-center fw-bold">
-              <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Allopathy</div></div>
-              <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Ayurveda</div></div>
-              <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Naturopathy</div></div>
-              <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Yoga & Meditation</div></div>
-              <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Acupuncture</div></div>
-              <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Homeopathy</div></div>
-              <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Psychological Counseling</div></div>
-              <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Disabilities Rehabilitation</div></div>
+            {/* Therapies Grid */}
+            <div className="row row-cols-2 g-3 text-center fw-semibold" style={{ color: '#2B6CB0' }}>
+              <div className="col"><div className="border rounded p-3 bg-white shadow-sm">Allopathy</div></div>
+              <div className="col"><div className="border rounded p-3 bg-white shadow-sm">Ayurveda</div></div>
+              <div className="col"><div className="border rounded p-3 bg-white shadow-sm">Naturopathy</div></div>
+              <div className="col"><div className="border rounded p-3 bg-white shadow-sm">Yoga & Meditation</div></div>
+              <div className="col"><div className="border rounded p-3 bg-white shadow-sm">Acupuncture</div></div>
+              <div className="col"><div className="border rounded p-3 bg-white shadow-sm">Homeopathy</div></div>
+              <div className="col"><div className="border rounded p-3 bg-white shadow-sm">Psychological Counseling</div></div>
+              <div className="col"><div className="border rounded p-3 bg-white shadow-sm">Disabilities Rehabilitation</div></div>
             </div>
           </div>
           
           <div className="col-lg-5">
-            <div className="p-5 text-center text-white" style={{ backgroundColor: '#3B82F6', borderRadius: '12px', boxShadow: '0 15px 35px rgba(59, 130, 246, 0.3)' }}>
+            <div className="p-5 rounded shadow-lg text-center text-white" style={{ backgroundColor: '#4299E1', borderRadius: '15px' }}>
               <h3 className="fw-bold mb-4">Hospital Vision</h3>
               <p className="mb-0 fs-5" style={{ lineHeight: '1.6' }}>
                 To create a center of healing focused on the total wellbeing of body, mind, and spirit for those who cannot afford treatment.
@@ -263,7 +172,7 @@ export default function Home() {
       </div>
 
       {/* 3. GURUKUL CHATRA NIVAS SECTION */}
-      <div id="gurukul-section" className="container my-5 py-5 border-top border-bottom">
+      <div className="container my-5 py-5 border-top border-bottom">
         <div className="text-center mb-5">
           <h2 className="fw-bold" style={{ color: 'var(--primary-blue)' }}>Gurukul Chatra Nivas</h2>
           <h5 className="mb-3" style={{ color: '#D53F8C' }}>A Home of Learning, Values & Service</h5>
@@ -293,32 +202,32 @@ export default function Home() {
       </div>
 
       {/* 4. SUPPORT OUR MISSION BANNER */}
-      <div className="py-5 my-5 shadow-lg" style={{ backgroundColor: '#1A365D', color: 'white' }}>
+      <div className="py-5 my-5 shadow" style={{ backgroundColor: 'var(--primary-blue)', color: 'white' }}>
         <div className="container py-4 text-center">
           <p className="fw-bold mb-2" style={{ color: '#F6E05E', letterSpacing: '1px' }}>Help & donate us now</p>
           <h2 className="fw-bold mb-5 display-5">How Can You Support Our Mission</h2>
           
           <div className="row g-4 text-start">
             <div className="col-md-4">
-              <div className="mission-card">
+              <div className="h-100 p-4 rounded" style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
                 <h4 className="fw-bold mb-3">Sponsor a Child's Education</h4>
-                <p>
+                <p className="mb-0" style={{ opacity: 0.85, lineHeight: '1.6' }}>
                   Support the children at Gurukul Chatra Nivas by funding their tuition, school supplies, and daily nutritious meals.
                 </p>
               </div>
             </div>
             <div className="col-md-4">
-              <div className="mission-card">
+              <div className="h-100 p-4 rounded" style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
                 <h4 className="fw-bold mb-3">Sponsor Medical Care</h4>
-                <p>
+                <p className="mb-0" style={{ opacity: 0.85, lineHeight: '1.6' }}>
                   Help us procure medical equipment and provide free or low-cost holistic treatments at Abha Seva Sadan.
                 </p>
               </div>
             </div>
             <div className="col-md-4">
-              <div className="mission-card">
+              <div className="h-100 p-4 rounded" style={{ backgroundColor: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)' }}>
                 <h4 className="fw-bold mb-3">Celebrate Your Special Day</h4>
-                <p>
+                <p className="mb-0" style={{ opacity: 0.85, lineHeight: '1.6' }}>
                   Celebrate your birthdays or anniversaries by sponsoring a special meal for the children and making a real difference.
                 </p>
               </div>
@@ -331,6 +240,7 @@ export default function Home() {
       <div id="donate-section" className="container my-5 pt-4">
         <div className="row g-4 align-items-stretch justify-content-center">
           
+          {/* Abha Seva Sadan Donation Box */}
           <div className="col-lg-6">
             <div className="glass-card h-100 p-4 p-md-5 text-center" style={{ borderTop: '5px solid var(--primary-blue)' }}>
               <h4 className="fw-bold mb-4" style={{ color: 'var(--primary-blue)' }}>Donate to Abha Seva Sadan</h4>
@@ -365,6 +275,7 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Gurukul Chatra Nivas Donation Box */}
           <div className="col-lg-6">
             <div className="glass-card h-100 p-4 p-md-5 text-center" style={{ borderTop: '5px solid var(--accent-coral)' }}>
               <h4 className="fw-bold mb-4" style={{ color: 'var(--accent-coral)' }}>Donate to Gurukul Chatra Nivas</h4>
@@ -515,7 +426,7 @@ export default function Home() {
       </div>
 
       {/* 8. FOOTER SECTION */}
-      <footer className="text-center py-5 mt-5" style={{ backgroundColor: '#1A365D', color: '#A0AEC0' }}>
+      <footer className="text-center py-5 mt-5" style={{ backgroundColor: 'var(--primary-blue)', color: '#A0AEC0' }}>
         <div className="container">
           <h4 className="fw-bold mb-3" style={{ color: '#F6E05E', letterSpacing: '1px' }}>ANDS FOUNDATION</h4>
           <p className="mb-1" style={{ fontSize: '0.9rem' }}>Reg. No. 1956/4/3864-2006</p>

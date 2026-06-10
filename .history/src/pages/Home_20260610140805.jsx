@@ -134,39 +134,13 @@ export default function Home() {
   return (
     <div className="home-container">
       
-      {/* INJECTED CSS FOR HOVER CARDS, NAVBAR LINKS & SMOOTH SCROLL */}
+      {/* INJECTED CSS FOR YELLOW HOVER CARDS & SMOOTH SCROLL */}
       <style>
         {`
           html {
             scroll-behavior: smooth;
-            scroll-padding-top: 80px; 
+            scroll-padding-top: 80px; /* Accounts for the fixed navbar height */
           }
-          
-          /* Navbar Link Hover Animation */
-          .nav-hover-link {
-            position: relative;
-            transition: color 0.3s ease;
-            padding-bottom: 5px;
-          }
-          .nav-hover-link:hover {
-            color: #FF6B6B !important;
-          }
-          .nav-hover-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 50%;
-            background-color: #FF6B6B;
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-          }
-          .nav-hover-link:hover::after {
-            width: 100%;
-          }
-
-          /* Yellow Mission Cards */
           .mission-card {
             background-color: rgba(255, 255, 255, 0.08);
             border: 1px solid rgba(255, 255, 255, 0.15);
@@ -195,7 +169,7 @@ export default function Home() {
         `}
       </style>
 
-      {/* 0. NEW TOP NAVIGATION BAR (WITH ANIMATED HOVER LINKS) */}
+      {/* 0. NEW TOP NAVIGATION BAR */}
       <nav className="navbar navbar-expand-md navbar-light bg-white sticky-top shadow-sm py-3">
         <div className="container">
           <a className="navbar-brand fw-bold fs-4" href="#" style={{ color: 'var(--primary-blue)' }}>ANDS Foundation</a>
@@ -203,14 +177,14 @@ export default function Home() {
             <span className="navbar-toggler-icon"></span>
           </button>
           <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul className="navbar-nav align-items-center gap-4">
+            <ul className="navbar-nav align-items-center gap-3">
               <li className="nav-item">
-                <a className="nav-link fw-semibold text-dark nav-hover-link" href="#hospital-section">Hospital</a>
+                <a className="nav-link fw-semibold text-dark" href="#hospital-section">Hospital</a>
               </li>
               <li className="nav-item">
-                <a className="nav-link fw-semibold text-dark nav-hover-link" href="#gurukul-section">Gurukul</a>
+                <a className="nav-link fw-semibold text-dark" href="#gurukul-section">Gurukul</a>
               </li>
-              <li className="nav-item ms-md-2">
+              <li className="nav-item ms-md-3">
                 <a className="btn btn-coral px-4 rounded-pill shadow-sm" href="#donate-section">Donate Now</a>
               </li>
             </ul>
@@ -229,7 +203,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 2. ABHA SEVA SADAN SECTION */}
+      {/* 2. ABHA SEVA SADAN SECTION (Added ID) */}
       <div id="hospital-section" className="container my-5 py-4">
         <div className="row align-items-center g-5">
           <div className="col-lg-7">
@@ -262,7 +236,7 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 3. GURUKUL CHATRA NIVAS SECTION */}
+      {/* 3. GURUKUL CHATRA NIVAS SECTION (Added ID) */}
       <div id="gurukul-section" className="container my-5 py-5 border-top border-bottom">
         <div className="text-center mb-5">
           <h2 className="fw-bold" style={{ color: 'var(--primary-blue)' }}>Gurukul Chatra Nivas</h2>

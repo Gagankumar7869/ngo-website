@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaGraduationCap, FaHeartbeat, FaUniversity, FaMobileAlt, FaPhone, FaEnvelope } from 'react-icons/fa';
+import { FaGraduationCap, FaHeartbeat, FaUniversity, FaMobileAlt } from 'react-icons/fa';
 import jsPDF from 'jspdf';
 
 export default function Home() {
@@ -12,11 +12,7 @@ export default function Home() {
     fundSelect: 'Abha Seva Sadan' 
   });
 
-  // --- STATE FOR GALLERY ---
-  const [activeTab, setActiveTab] = useState('All');
-  const [selectedImage, setSelectedImage] = useState(null);
-
-  // --- FRONTEND PDF GENERATOR ---
+  // --- FRONTEND PDF GENERATOR (MATCHING PHYSICAL RECEIPTS) ---
   const handleClaimSubmit = (e) => {
     e.preventDefault();
     
@@ -29,6 +25,7 @@ export default function Home() {
         format: [220, 130]
       });
 
+      // Headers
       doc.setFont("helvetica", "bold");
       doc.setFontSize(24);
       doc.setTextColor(80, 80, 80); 
@@ -42,10 +39,12 @@ export default function Home() {
       doc.text(isGurukul ? "Regd. No. 1956/4/3864-2006" : "Regd No. - 1956/4/3864-2006", 110, 34, { align: "center" });
       doc.text(isGurukul ? "GOVINDTOLA, DHANUPALI, SAMBALPUR-768005" : "Gargadbahal, Jujomura, Sambalpur-768105", 110, 40, { align: "center" });
 
+      // Border
       doc.setLineWidth(0.5);
       doc.setDrawColor(100, 100, 100);
       doc.rect(5, 5, 210, 120);
 
+      // Sl.No and Date
       doc.setFontSize(12);
       const randomSlNo = Math.floor(Math.random() * 1000) + 118; 
       const today = new Date().toLocaleDateString();
@@ -54,6 +53,7 @@ export default function Home() {
       doc.text(`Sl. No: ${randomSlNo}`, 15, 55);
       doc.text(`Date : ${today}`, 175, 55);
 
+      // Main Receipt Body
       doc.setFont("helvetica", "normal");
       doc.text("Received with thanks from Mr/Mrs/Ms.", 15, 70);
       doc.setFont("helvetica", "bold");
@@ -70,15 +70,18 @@ export default function Home() {
       if (isGurukul) {
         doc.setFont("helvetica", "normal");
         doc.text("By Cash/Cheque/", 175, 85);
+        
         doc.text("UPI", 15, 100);
         doc.setFont("helvetica", "bold");
         doc.text(formData.utrNumber, 25, 99);
         doc.line(23, 101, 80, 101); 
+        
         doc.setFont("helvetica", "normal");
         doc.text("Date", 85, 100);
         doc.setFont("helvetica", "bold");
         doc.text(today, 95, 99);
         doc.line(93, 101, 130, 101); 
+        
         doc.setFont("helvetica", "bold");
         doc.text("on account of Gurukul Chatra Nivas.", 135, 100);
       } else {
@@ -87,15 +90,18 @@ export default function Home() {
         doc.setFont("helvetica", "bold");
         doc.text(`UPI - ${formData.utrNumber}`, 65, 99);
         doc.line(63, 101, 130, 101);
+        
         doc.setFont("helvetica", "normal");
         doc.text("Dated", 132, 100);
         doc.setFont("helvetica", "bold");
         doc.text(today, 145, 99);
         doc.line(144, 101, 180, 101);
+        
         doc.setFont("helvetica", "bold");
         doc.text("on account of ABHA SEVA SADAN.", 15, 110);
       }
 
+      // Bottom Rs. Box
       doc.setFillColor(60, 60, 60); 
       doc.rect(15, 115, 20, 10, "F");
       doc.setTextColor(255, 255, 255);
@@ -106,8 +112,10 @@ export default function Home() {
       doc.setTextColor(0, 0, 0); 
       doc.text(`${formData.amount} /-`, 38, 122);
 
+      // Signature Line
       doc.text("Signature", 185, 122);
 
+      // Download PDF
       const fileName = isGurukul ? `Gurukul_Receipt_${formData.donorName}.pdf` : `Abha_Seva_Sadan_Receipt_${formData.donorName}.pdf`;
       doc.save(fileName);
       
@@ -120,106 +128,16 @@ export default function Home() {
     }
   };
 
+  // --- STATE AND HANDLERS FOR IMAGE GALLERY ---
+  const [selectedImage, setSelectedImage] = useState(null);
   const handleImageClick = (imagePath) => setSelectedImage(imagePath);
   const closeImage = () => setSelectedImage(null);
-
-  const therapyBoxStyle = {
-    color: '#2B6CB0',
-    border: '1px solid rgba(43, 108, 176, 0.2)',
-    borderRadius: '8px',
-    boxShadow: '0 2px 4px rgba(0,0,0,0.02)',
-    transition: 'all 0.2s ease-in-out'
-  };
 
   return (
     <div className="home-container">
       
-      {/* INJECTED CSS FOR HOVER CARDS, NAVBAR LINKS & SMOOTH SCROLL */}
-      <style>
-        {`
-          html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 80px; 
-          }
-          
-          /* Navbar Link Hover Animation */
-          .nav-hover-link {
-            position: relative;
-            transition: color 0.3s ease;
-            padding-bottom: 5px;
-          }
-          .nav-hover-link:hover {
-            color: #FF6B6B !important;
-          }
-          .nav-hover-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 50%;
-            background-color: #FF6B6B;
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-          }
-          .nav-hover-link:hover::after {
-            width: 100%;
-          }
-
-          /* Yellow Mission Cards */
-          .mission-card {
-            background-color: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            height: 100%;
-            padding: 1.5rem;
-          }
-          .mission-card p {
-            opacity: 0.9;
-            line-height: 1.6;
-            margin-bottom: 0;
-          }
-          .mission-card:hover {
-            background-color: #F6E05E;
-            border-color: #F6E05E;
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(246, 224, 94, 0.2);
-          }
-          .mission-card:hover h4, 
-          .mission-card:hover p {
-            color: #1A365D !important;
-            opacity: 1;
-          }
-        `}
-      </style>
-
-      {/* 0. NEW TOP NAVIGATION BAR (WITH ANIMATED HOVER LINKS) */}
-      <nav className="navbar navbar-expand-md navbar-light bg-white sticky-top shadow-sm py-3">
-        <div className="container">
-          <a className="navbar-brand fw-bold fs-4" href="#" style={{ color: 'var(--primary-blue)' }}>ANDS Foundation</a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul className="navbar-nav align-items-center gap-4">
-              <li className="nav-item">
-                <a className="nav-link fw-semibold text-dark nav-hover-link" href="#hospital-section">Hospital</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link fw-semibold text-dark nav-hover-link" href="#gurukul-section">Gurukul</a>
-              </li>
-              <li className="nav-item ms-md-2">
-                <a className="btn btn-coral px-4 rounded-pill shadow-sm" href="#donate-section">Donate Now</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
       {/* 1. HERO SECTION */}
-      <div className="hero-gradient text-center" style={{ marginTop: '-80px', paddingTop: '160px' }}>
+      <div className="hero-gradient text-center">
         <div className="container">
           <h1 className="display-4 fw-bold mb-3 text-white">Serving Humanity with Love</h1>
           <p className="lead mb-4 text-white" style={{ opacity: 0.9 }}>
@@ -229,114 +147,73 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 2. ABHA SEVA SADAN SECTION */}
-      <div id="hospital-section" className="container my-5 py-4">
-        <div className="row align-items-center g-5">
-          <div className="col-lg-7">
-            <h2 className="fw-bold mb-2" style={{ color: '#2B6CB0' }}>Abha Seva Sadan</h2>
-            <h5 className="text-muted mb-4">Multi-Therapy Charitable Hospital</h5>
-            <p className="text-dark mb-4" style={{ fontSize: '1.1rem' }}>
-              We provide affordable and integrated healthcare to the underprivileged, blending modern science with ancient wellness traditions.
-            </p>
-            
-            <div className="row row-cols-2 g-3 text-center fw-bold">
-              <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Allopathy</div></div>
-              <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Ayurveda</div></div>
-              <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Naturopathy</div></div>
-              <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Yoga & Meditation</div></div>
-              <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Acupuncture</div></div>
-              <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Homeopathy</div></div>
-              <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Psychological Counseling</div></div>
-              <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Disabilities Rehabilitation</div></div>
-            </div>
-          </div>
-          
-          <div className="col-lg-5">
-            <div className="p-5 text-center text-white" style={{ backgroundColor: '#3B82F6', borderRadius: '12px', boxShadow: '0 15px 35px rgba(59, 130, 246, 0.3)' }}>
-              <h3 className="fw-bold mb-4">Hospital Vision</h3>
-              <p className="mb-0 fs-5" style={{ lineHeight: '1.6' }}>
-                To create a center of healing focused on the total wellbeing of body, mind, and spirit for those who cannot afford treatment.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* 3. GURUKUL CHATRA NIVAS SECTION */}
-      <div id="gurukul-section" className="container my-5 py-5 border-top border-bottom">
+      {/* 2. OUR INITIATIVES */}
+      <div className="container my-5 pt-4">
         <div className="text-center mb-5">
-          <h2 className="fw-bold" style={{ color: 'var(--primary-blue)' }}>Gurukul Chatra Nivas</h2>
-          <h5 className="mb-3" style={{ color: '#D53F8C' }}>A Home of Learning, Values & Service</h5>
+          <h2 className="fw-bold" style={{ color: 'var(--primary-blue)' }}>Our Core Initiatives</h2>
+          <p className="text-muted">Empowering the Sambalpur community through healthcare and education.</p>
         </div>
 
         <div className="row g-4 align-items-stretch">
-          <div className="col-md-6">
-            <div className="h-100 p-4 p-md-5 rounded-4 shadow-sm" style={{ backgroundColor: '#F7FAFC' }}>
-              <h4 className="fw-bold mb-4" style={{ color: 'var(--primary-blue)' }}>Provisions & Education</h4>
-              <p className="text-dark mb-0" style={{ lineHeight: '1.8', fontSize: '1.05rem' }}>
-                We offer free lodging, balanced vegetarian meals, and admission to nearby schools/colleges for economically disadvantaged boys. Our holistic approach includes daily evening tuition, regular medical check-ups, and participation in cultural festivals.
+          {/* Gurukul Chatra Nivas Details */}
+          <div className="col-lg-6">
+            <div className="premium-card h-100 p-4 p-md-5" style={{ borderLeft: '5px solid var(--accent-coral)' }}>
+              <FaGraduationCap size={45} color="var(--accent-coral)" className="mb-3" />
+              <h3 className="fw-bold mb-3" style={{ color: 'var(--primary-blue)' }}>Gurukul Chatra Nivas</h3>
+              <h5 className="text-dark mb-3">Nurturing Future Leaders</h5>
+              <p className="text-muted" style={{ lineHeight: '1.8' }}>
+                The Gurukula Chatra Nivas is a humble yet profound initiative to provide a safe, nurturing, and value-based environment for students from underprivileged and remote areas. Here, they receive education, food, shelter, and moral guidance to grow into responsible, self-reliant citizens.
               </p>
+              <h6 className="fw-bold mt-4 mb-2 text-dark">Your Support Provides:</h6>
+              <ul className="text-muted mb-0" style={{ lineHeight: '1.8' }}>
+                <li>Comfortable and clean living spaces & nutritious meals</li>
+                <li>Educational materials and tuition</li>
+                <li>Health care, clothing, and cultural & spiritual education</li>
+              </ul>
             </div>
           </div>
-          <div className="col-md-6">
-            <div className="h-100 p-4 p-md-5 rounded-4 shadow-sm bg-white border">
-              <h4 className="fw-bold mb-4" style={{ color: 'var(--primary-blue)' }}>Rules & Daily Routine</h4>
-              <ul className="list-unstyled mb-0 text-dark" style={{ lineHeight: '1.8', fontSize: '1.05rem' }}>
-                <li className="mb-3">🌅 <strong>Brahma Muhurta:</strong> Wake up at 4:30 AM for personal hygiene and yoga.</li>
-                <li className="mb-3">🥦 <strong>Diet:</strong> Strictly sentient vegetarian food. No outside junk food.</li>
-                <li className="mb-3">🛑 <strong>Strict Bans:</strong> Zero tolerance for intoxicants or smartphones.</li>
-                <li>🤫 <strong>Discipline:</strong> Absolute silence observed during study hours.</li>
+
+          {/* Abha Seva Sadan Details */}
+          <div className="col-lg-6">
+            <div className="premium-card h-100 p-4 p-md-5" style={{ borderLeft: '5px solid var(--primary-blue)' }}>
+              <FaHeartbeat size={45} color="var(--primary-blue)" className="mb-3" />
+              <h3 className="fw-bold mb-3" style={{ color: 'var(--accent-coral)' }}>Abha Seva Sadan</h3>
+              <h5 className="text-dark mb-3">Multi-Therapy Charitable Hospital</h5>
+              <p className="text-muted" style={{ lineHeight: '1.8' }}>
+                Dedicated to providing affordable and integrated healthcare to the underprivileged, bridging the gap for rural and tribal populations who face severe challenges accessing quality care. We offer free and low-cost treatments blending modern science with ancient wellness traditions.
+              </p>
+              <h6 className="fw-bold mt-4 mb-2 text-dark">Therapies Offered Include:</h6>
+              <ul className="text-muted mb-0" style={{ lineHeight: '1.8', columnCount: 2 }}>
+                <li>Allopathy</li>
+                <li>Ayurveda</li>
+                <li>Naturopathy</li>
+                <li>Yoga & Meditation</li>
+                <li>Acupuncture</li>
+                <li>Homeopathy</li>
               </ul>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 4. SUPPORT OUR MISSION BANNER */}
-      <div className="py-5 my-5 shadow-lg" style={{ backgroundColor: '#1A365D', color: 'white' }}>
-        <div className="container py-4 text-center">
-          <p className="fw-bold mb-2" style={{ color: '#F6E05E', letterSpacing: '1px' }}>Help & donate us now</p>
-          <h2 className="fw-bold mb-5 display-5">How Can You Support Our Mission</h2>
-          
-          <div className="row g-4 text-start">
-            <div className="col-md-4">
-              <div className="mission-card">
-                <h4 className="fw-bold mb-3">Sponsor a Child's Education</h4>
-                <p>
-                  Support the children at Gurukul Chatra Nivas by funding their tuition, school supplies, and daily nutritious meals.
-                </p>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="mission-card">
-                <h4 className="fw-bold mb-3">Sponsor Medical Care</h4>
-                <p>
-                  Help us procure medical equipment and provide free or low-cost holistic treatments at Abha Seva Sadan.
-                </p>
-              </div>
-            </div>
-            <div className="col-md-4">
-              <div className="mission-card">
-                <h4 className="fw-bold mb-3">Celebrate Your Special Day</h4>
-                <p>
-                  Celebrate your birthdays or anniversaries by sponsoring a special meal for the children and making a real difference.
-                </p>
-              </div>
-            </div>
-          </div>
+      {/* 3. DUAL-ACCOUNT DONATION HUB */}
+      <div id="donate-section" className="container my-5 pt-5">
+        <div className="text-center mb-5">
+          <h2 className="fw-bold" style={{ color: 'var(--primary-blue)' }}>Support Our Mission</h2>
+          <p className="text-muted">Every Rupee Matters. Every Life Counts. Choose an initiative to support below.</p>
         </div>
-      </div>
 
-      {/* 5. DUAL-ACCOUNT DONATION HUB */}
-      <div id="donate-section" className="container my-5 pt-4">
         <div className="row g-4 align-items-stretch justify-content-center">
           
+          {/* Abha Seva Sadan Donation Box */}
           <div className="col-lg-6">
             <div className="glass-card h-100 p-4 p-md-5 text-center" style={{ borderTop: '5px solid var(--primary-blue)' }}>
               <h4 className="fw-bold mb-4" style={{ color: 'var(--primary-blue)' }}>Donate to Abha Seva Sadan</h4>
+              
               <div className="bg-white p-3 rounded-4 mb-4 d-inline-block shadow-sm">
                 <img src="/images/abha-qr.png" alt="Abha Seva Sadan QR Code" className="img-fluid" style={{ maxWidth: '180px' }} />
               </div>
+              
               <div className="text-start bg-light p-4 rounded-4">
                 <h6 className="fw-bold text-dark mb-3"><FaUniversity className="me-2 text-primary" />Direct Bank Transfer</h6>
                 <div className="mb-2">
@@ -357,6 +234,7 @@ export default function Home() {
                     <p className="fw-bold mb-0 text-dark">SBI, Dhanupali</p>
                   </div>
                 </div>
+                {/* NEW UPI ID SECTION FOR ABHA SEVA SADAN */}
                 <div className="pt-2 border-top">
                   <small className="text-muted text-uppercase fw-bold" style={{ fontSize: '0.7rem' }}><FaMobileAlt className="me-1"/> Official UPI ID</small>
                   <p className="fw-bold mb-0 text-dark">abhasevasadan@sbi</p>
@@ -365,12 +243,15 @@ export default function Home() {
             </div>
           </div>
 
+          {/* Gurukul Chatra Nivas Donation Box */}
           <div className="col-lg-6">
             <div className="glass-card h-100 p-4 p-md-5 text-center" style={{ borderTop: '5px solid var(--accent-coral)' }}>
               <h4 className="fw-bold mb-4" style={{ color: 'var(--accent-coral)' }}>Donate to Gurukul Chatra Nivas</h4>
+              
               <div className="bg-white p-3 rounded-4 mb-4 d-inline-block shadow-sm">
                 <img src="/images/gurukul-qr.png" alt="Gurukul QR Code" className="img-fluid" style={{ maxWidth: '180px' }} />
               </div>
+              
               <div className="text-start bg-light p-4 rounded-4">
                 <h6 className="fw-bold text-dark mb-3"><FaUniversity className="me-2" style={{ color: 'var(--accent-coral)' }}/>Direct Bank Transfer</h6>
                 <div className="mb-2">
@@ -402,14 +283,14 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 6. UPI CLAIM FORM */}
+      {/* 4. UPI CLAIM FORM WITH DROPDOWN */}
       <div className="container my-5 pb-5">
         <div className="row justify-content-center">
           <div className="col-lg-10">
             <div className="premium-card p-4 p-md-5">
               <div className="text-center mb-4">
                 <h3 className="fw-bold" style={{ color: 'var(--primary-blue)' }}>Claim Your Donation Receipt</h3>
-                <p className="text-muted small">Paid via QR code or Bank Transfer? Enter your details below to generate your official tax receipt.</p>
+                <p className="text-muted small">Paid via QR code? Enter your details below to generate your official tax receipt.</p>
               </div>
               
               <form onSubmit={handleClaimSubmit}>
@@ -426,6 +307,7 @@ export default function Home() {
                       <option value="Gurukul Chatra Nivas">Gurukul Chatra Nivas</option>
                     </select>
                   </div>
+                  
                   <div className="col-md-6">
                     <label className="form-label text-muted small fw-bold">Donor Name</label>
                     <input type="text" className="form-control form-control-lg bg-light border-0" placeholder="e.g. John Doe" required
@@ -461,76 +343,44 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 7. DYNAMIC TABBED PHOTO GALLERY */}
+      {/* 5. PHOTO GALLERIES */}
       <div className="container my-5 pb-5">
-        <div className="text-center mb-5">
-          <h2 className="fw-bold" style={{ color: 'var(--primary-blue)' }}>Glimpses of Our Work</h2>
-          <p className="text-muted">See the impact of your contributions on the ground.</p>
-        </div>
+        <h3 className="fw-bold mb-4 text-center" style={{ color: 'var(--primary-blue)' }}>Glimpses of Our Work</h3>
         
-        <div className="d-flex justify-content-center mb-4">
-          <div className="btn-group shadow-sm bg-white rounded-pill p-1">
-            <button className={`btn rounded-pill px-4 ${activeTab === 'All' ? 'btn-coral' : 'btn-light text-muted border-0'}`} onClick={() => setActiveTab('All')}>All Photos</button>
-            <button className={`btn rounded-pill px-4 ${activeTab === 'Gurukul' ? 'btn-coral' : 'btn-light text-muted border-0'}`} onClick={() => setActiveTab('Gurukul')}>Gurukul</button>
-            <button className={`btn rounded-pill px-4 ${activeTab === 'Hospital' ? 'btn-coral' : 'btn-light text-muted border-0'}`} onClick={() => setActiveTab('Hospital')}>Hospital</button>
-          </div>
+        <h5 className="mt-5 mb-3 text-muted fw-bold">Abha Seva Sadan Hospital</h5>
+        <div className="row g-3">
+          {[1, 2, 3, 4].map((num) => (
+            <div className="col-6 col-md-3" key={`hospital-${num}`}>
+              <img 
+                src={`/images/hospital-${num}.jpg`} 
+                alt={`Hospital facility ${num}`} 
+                className="img-fluid rounded-4 shadow-sm"
+                style={{ cursor: 'pointer', objectFit: 'cover', height: '220px', width: '100%', transition: 'transform 0.3s' }}
+                onMouseOver={(e) => e.target.style.transform = 'scale(1.03)'}
+                onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+                onClick={() => handleImageClick(`/images/hospital-${num}.jpg`)}
+              />
+            </div>
+          ))}
         </div>
 
-        <div className="row g-4">
-          {(activeTab === 'All' || activeTab === 'Gurukul') && 
-            [1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-              <div className="col-6 col-md-4 col-lg-3" key={`gurukul-${num}`}>
-                <div className="premium-card h-100 p-1">
-                  <img 
-                    src={`/images/gurukul-${num}.jpg`} 
-                    alt={`Gurukul activities ${num}`} 
-                    className="img-fluid rounded-3"
-                    style={{ cursor: 'pointer', objectFit: 'cover', height: '220px', width: '100%', transition: 'transform 0.3s' }}
-                    onMouseOver={(e) => e.target.style.transform = 'scale(1.03)'}
-                    onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
-                    onClick={() => handleImageClick(`/images/gurukul-${num}.jpg`)}
-                    onError={(e) => e.target.style.display = 'none'} 
-                  />
-                </div>
-              </div>
-          ))}
-          {(activeTab === 'All' || activeTab === 'Hospital') && 
-            [1, 2, 3, 4, 5, 6, 7, 8].map((num) => (
-              <div className="col-6 col-md-4 col-lg-3" key={`hospital-${num}`}>
-                <div className="premium-card h-100 p-1">
-                  <img 
-                    src={`/images/hospital-${num}.jpg`} 
-                    alt={`Hospital facility ${num}`} 
-                    className="img-fluid rounded-3"
-                    style={{ cursor: 'pointer', objectFit: 'cover', height: '220px', width: '100%', transition: 'transform 0.3s' }}
-                    onMouseOver={(e) => e.target.style.transform = 'scale(1.03)'}
-                    onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
-                    onClick={() => handleImageClick(`/images/hospital-${num}.jpg`)}
-                    onError={(e) => e.target.style.display = 'none'}
-                  />
-                </div>
-              </div>
+        <h5 className="mt-5 mb-3 text-muted fw-bold">Gurukul Chatra Nivas</h5>
+        <div className="row g-3">
+          {[1, 2, 3, 4].map((num) => (
+            <div className="col-6 col-md-3" key={`gurukul-${num}`}>
+              <img 
+                src={`/images/gurukul-${num}.jpg`} 
+                alt={`Gurukul activities ${num}`} 
+                className="img-fluid rounded-4 shadow-sm"
+                style={{ cursor: 'pointer', objectFit: 'cover', height: '220px', width: '100%', transition: 'transform 0.3s' }}
+                onMouseOver={(e) => e.target.style.transform = 'scale(1.03)'}
+                onMouseOut={(e) => e.target.style.transform = 'scale(1)'}
+                onClick={() => handleImageClick(`/images/gurukul-${num}.jpg`)}
+              />
+            </div>
           ))}
         </div>
       </div>
-
-      {/* 8. FOOTER SECTION */}
-      <footer className="text-center py-5 mt-5" style={{ backgroundColor: '#1A365D', color: '#A0AEC0' }}>
-        <div className="container">
-          <h4 className="fw-bold mb-3" style={{ color: '#F6E05E', letterSpacing: '1px' }}>ANDS FOUNDATION</h4>
-          <p className="mb-1" style={{ fontSize: '0.9rem' }}>Reg. No. 1956/4/3864-2006</p>
-          <p className="mb-4" style={{ fontSize: '0.9rem' }}>Gargadbahal, Jujomura & Govindtola, Dhanupali, Sambalpur, Odisha</p>
-          
-          <div className="d-flex flex-column flex-md-row justify-content-center align-items-center gap-3 gap-md-5 mt-4" style={{ color: 'white' }}>
-            <div className="d-flex align-items-center fw-semibold">
-              <FaPhone className="me-2 text-muted" /> +91 9938167456
-            </div>
-            <div className="d-flex align-items-center fw-semibold">
-              <FaEnvelope className="me-2 text-muted" /> abhasevasadansambalpur@gmail.com
-            </div>
-          </div>
-        </div>
-      </footer>
 
       {/* IMAGE ENLARGEMENT MODAL */}
       {selectedImage && (

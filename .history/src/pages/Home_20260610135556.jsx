@@ -123,6 +123,7 @@ export default function Home() {
   const handleImageClick = (imagePath) => setSelectedImage(imagePath);
   const closeImage = () => setSelectedImage(null);
 
+  // Reusable style object for the Therapy Grid boxes
   const therapyBoxStyle = {
     color: '#2B6CB0',
     border: '1px solid rgba(43, 108, 176, 0.2)',
@@ -134,92 +135,8 @@ export default function Home() {
   return (
     <div className="home-container">
       
-      {/* INJECTED CSS FOR HOVER CARDS, NAVBAR LINKS & SMOOTH SCROLL */}
-      <style>
-        {`
-          html {
-            scroll-behavior: smooth;
-            scroll-padding-top: 80px; 
-          }
-          
-          /* Navbar Link Hover Animation */
-          .nav-hover-link {
-            position: relative;
-            transition: color 0.3s ease;
-            padding-bottom: 5px;
-          }
-          .nav-hover-link:hover {
-            color: #FF6B6B !important;
-          }
-          .nav-hover-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: 0;
-            left: 50%;
-            background-color: #FF6B6B;
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-          }
-          .nav-hover-link:hover::after {
-            width: 100%;
-          }
-
-          /* Yellow Mission Cards */
-          .mission-card {
-            background-color: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            border-radius: 12px;
-            transition: all 0.3s ease;
-            cursor: pointer;
-            height: 100%;
-            padding: 1.5rem;
-          }
-          .mission-card p {
-            opacity: 0.9;
-            line-height: 1.6;
-            margin-bottom: 0;
-          }
-          .mission-card:hover {
-            background-color: #F6E05E;
-            border-color: #F6E05E;
-            transform: translateY(-8px);
-            box-shadow: 0 15px 30px rgba(246, 224, 94, 0.2);
-          }
-          .mission-card:hover h4, 
-          .mission-card:hover p {
-            color: #1A365D !important;
-            opacity: 1;
-          }
-        `}
-      </style>
-
-      {/* 0. NEW TOP NAVIGATION BAR (WITH ANIMATED HOVER LINKS) */}
-      <nav className="navbar navbar-expand-md navbar-light bg-white sticky-top shadow-sm py-3">
-        <div className="container">
-          <a className="navbar-brand fw-bold fs-4" href="#" style={{ color: 'var(--primary-blue)' }}>ANDS Foundation</a>
-          <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span className="navbar-toggler-icon"></span>
-          </button>
-          <div className="collapse navbar-collapse justify-content-end" id="navbarNav">
-            <ul className="navbar-nav align-items-center gap-4">
-              <li className="nav-item">
-                <a className="nav-link fw-semibold text-dark nav-hover-link" href="#hospital-section">Hospital</a>
-              </li>
-              <li className="nav-item">
-                <a className="nav-link fw-semibold text-dark nav-hover-link" href="#gurukul-section">Gurukul</a>
-              </li>
-              <li className="nav-item ms-md-2">
-                <a className="btn btn-coral px-4 rounded-pill shadow-sm" href="#donate-section">Donate Now</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </nav>
-
       {/* 1. HERO SECTION */}
-      <div className="hero-gradient text-center" style={{ marginTop: '-80px', paddingTop: '160px' }}>
+      <div className="hero-gradient text-center">
         <div className="container">
           <h1 className="display-4 fw-bold mb-3 text-white">Serving Humanity with Love</h1>
           <p className="lead mb-4 text-white" style={{ opacity: 0.9 }}>
@@ -230,7 +147,7 @@ export default function Home() {
       </div>
 
       {/* 2. ABHA SEVA SADAN SECTION */}
-      <div id="hospital-section" className="container my-5 py-4">
+      <div className="container my-5 py-4">
         <div className="row align-items-center g-5">
           <div className="col-lg-7">
             <h2 className="fw-bold mb-2" style={{ color: '#2B6CB0' }}>Abha Seva Sadan</h2>
@@ -239,6 +156,7 @@ export default function Home() {
               We provide affordable and integrated healthcare to the underprivileged, blending modern science with ancient wellness traditions.
             </p>
             
+            {/* Therapies Grid - Styled to match screenshot */}
             <div className="row row-cols-2 g-3 text-center fw-bold">
               <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Allopathy</div></div>
               <div className="col"><div className="bg-white p-3" style={therapyBoxStyle}>Ayurveda</div></div>
@@ -252,6 +170,7 @@ export default function Home() {
           </div>
           
           <div className="col-lg-5">
+            {/* Hospital Vision Box - Styled to match screenshot */}
             <div className="p-5 text-center text-white" style={{ backgroundColor: '#3B82F6', borderRadius: '12px', boxShadow: '0 15px 35px rgba(59, 130, 246, 0.3)' }}>
               <h3 className="fw-bold mb-4">Hospital Vision</h3>
               <p className="mb-0 fs-5" style={{ lineHeight: '1.6' }}>
@@ -263,7 +182,7 @@ export default function Home() {
       </div>
 
       {/* 3. GURUKUL CHATRA NIVAS SECTION */}
-      <div id="gurukul-section" className="container my-5 py-5 border-top border-bottom">
+      <div className="container my-5 py-5 border-top border-bottom">
         <div className="text-center mb-5">
           <h2 className="fw-bold" style={{ color: 'var(--primary-blue)' }}>Gurukul Chatra Nivas</h2>
           <h5 className="mb-3" style={{ color: '#D53F8C' }}>A Home of Learning, Values & Service</h5>
@@ -300,25 +219,28 @@ export default function Home() {
           
           <div className="row g-4 text-start">
             <div className="col-md-4">
-              <div className="mission-card">
+              {/* Mission Card 1 - Styled to match screenshot */}
+              <div className="h-100 p-4" style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)', border: '1px solid rgba(255, 255, 255, 0.15)', borderRadius: '12px' }}>
                 <h4 className="fw-bold mb-3">Sponsor a Child's Education</h4>
-                <p>
+                <p className="mb-0" style={{ opacity: 0.9, lineHeight: '1.6' }}>
                   Support the children at Gurukul Chatra Nivas by funding their tuition, school supplies, and daily nutritious meals.
                 </p>
               </div>
             </div>
             <div className="col-md-4">
-              <div className="mission-card">
+              {/* Mission Card 2 - Styled to match screenshot */}
+              <div className="h-100 p-4" style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)', border: '1px solid rgba(255, 255, 255, 0.15)', borderRadius: '12px' }}>
                 <h4 className="fw-bold mb-3">Sponsor Medical Care</h4>
-                <p>
+                <p className="mb-0" style={{ opacity: 0.9, lineHeight: '1.6' }}>
                   Help us procure medical equipment and provide free or low-cost holistic treatments at Abha Seva Sadan.
                 </p>
               </div>
             </div>
             <div className="col-md-4">
-              <div className="mission-card">
+              {/* Mission Card 3 - Styled to match screenshot */}
+              <div className="h-100 p-4" style={{ backgroundColor: 'rgba(255, 255, 255, 0.08)', border: '1px solid rgba(255, 255, 255, 0.15)', borderRadius: '12px' }}>
                 <h4 className="fw-bold mb-3">Celebrate Your Special Day</h4>
-                <p>
+                <p className="mb-0" style={{ opacity: 0.9, lineHeight: '1.6' }}>
                   Celebrate your birthdays or anniversaries by sponsoring a special meal for the children and making a real difference.
                 </p>
               </div>
